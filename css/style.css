@@ -1,0 +1,42 @@
+/* ==========================================================================
+   STYLE TOKENS & RESET (Zero-Shadow Minimalist System)
+   ========================================================================== */
+
+/* Strict zero shadow across the entire application */
+*, *::before, *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Minimalist clean scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
+
+/* Primary Blue Text Selection */
+::selection {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* Full viewport lock & prevent unwanted double bounce */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none;
+}
+

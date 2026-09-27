@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Bank Soal & Belajar Mandiri Informatika</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Presentation CSS: Zero-Shadow Minimalist System -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Anti-Inspect & DevTools Blocker (Keamanan Kuis Sederhana) -->
+  <script src="js/infrastructure/AntiInspect.js"></script>
+</head>
+<body class="bg-slate-100/70 text-slate-900 font-sans antialiased select-none">
+
+  <!-- ==========================================================================
+       VIEW 1: HOME PORTAL DENGAN SIDEBAR & RIWAYAT BELAJAR (PRIMARY BLUE THEME)
+       ========================================================================== -->
+  <div id="view-home" class="h-screen flex flex-col overflow-hidden">
+    
+    <!-- Top Header Bar (Clean Professional Blue Bar) -->
+    <header class="bg-blue-600 text-white h-16 border-b border-blue-700/80 flex items-center justify-between px-6 shrink-0 z-30">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-white/15 border border-white/20 flex items-center justify-center shrink-0">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <div class="flex flex-col justify-center">
+          <span class="font-mono text-xs font-extrabold tracking-wider text-white">INFORMATIKA BANK SOAL</span>
+          <span class="text-[11px] text-blue-100 font-medium">Portal Belajar Mandiri & Bank Soal Semester 1–5</span>
+        </div>
+      </div>
+
+      <!-- Quick Action: Riwayat Belajar -->
+      <div class="flex items-center gap-3">
+        <button id="btn-open-history" class="h-9 px-3.5 text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition cursor-pointer flex items-center gap-2">
+          <svg class="w-3.5 h-3.5 text-blue-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Riwayat Nilai</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Portal Body Layout: Sidebar + Main Content (Independent Scroll) -->
+    <div class="flex-1 flex flex-col lg:flex-row items-stretch overflow-hidden">
+      
+      <!-- ================= LEFT SIDEBAR (Stasioner, Independent Scroll, Crisp Border) ================= -->
+      <aside class="w-full lg:w-72 xl:w-80 bg-white border-r border-slate-200 p-5 flex flex-col justify-between shrink-0 space-y-6 overflow-y-auto">
+        
+        <div class="space-y-6">
+          
+          <!-- Sidebar Section 1: Semester Selector -->
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between pb-1.5 border-b border-blue-100">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-blue-900">
+                Pilih Semester
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 font-bold">
+                SEM 1–5
+              </span>
+            </div>
+            
+            <div id="sidebar-semesters-list" class="space-y-1.5">
+              <!-- Dynamically populated semester buttons -->
+            </div>
+          </div>
+
+          <!-- Sidebar Section 2: Quick Filter Category -->
+          <div class="space-y-2.5">
+            <div class="pb-1.5 border-b border-blue-100">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-blue-900">
+                Filter Jenis Soal
+              </span>
+            </div>
+
+            <div id="category-filters-container" class="flex flex-wrap gap-1.5">
+              <button data-cat="all" class="category-filter-btn px-2.5 py-1 text-xs border border-blue-600 bg-blue-600 text-white font-semibold transition cursor-pointer">
+                Semua
+              </button>
+              <button data-cat="latihan" class="category-filter-btn px-2.5 py-1 text-xs border border-slate-300 bg-white text-slate-700 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50/50 transition cursor-pointer">
+                Latihan
+              </button>
+              <button data-cat="quiz1" class="category-filter-btn px-2.5 py-1 text-xs border border-slate-300 bg-white text-slate-700 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50/50 transition cursor-pointer">
+                Quiz 1
+              </button>
+              <button data-cat="uts" class="category-filter-btn px-2.5 py-1 text-xs border border-slate-300 bg-white text-slate-700 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50/50 transition cursor-pointer">
+                UTS
+              </button>
+              <button data-cat="quiz2" class="category-filter-btn px-2.5 py-1 text-xs border border-slate-300 bg-white text-slate-700 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50/50 transition cursor-pointer">
+                Quiz 2
+              </button>
+              <button data-cat="uas" class="category-filter-btn px-2.5 py-1 text-xs border border-slate-300 bg-white text-slate-700 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50/50 transition cursor-pointer">
+                UAS
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar Section 3: Bottom System Info -->
+        <div class="space-y-3 pt-4 border-t border-slate-200 text-xs">
+          <div class="bg-blue-50/80 border border-blue-200 p-3.5 space-y-1.5">
+            <div class="font-bold text-blue-900 uppercase text-[10px] tracking-wider flex items-center gap-1.5">
+              <span class="w-2 h-2 bg-blue-600"></span>
+              Mode Belajar Interaktif
+            </div>
+            <p class="text-[11px] text-blue-800/80 leading-normal">
+              Dilengkapi pembahasan materi instan dan blok kode program untuk setiap butir soal.
+            </p>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- ================= RIGHT MAIN CONTENT WORKSPACE ================= -->
+      <main class="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto">
+        
+        <!-- Controls Bar: Search & Status Summary -->
+        <div class="bg-white border border-blue-100 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          
+          <!-- Search Input -->
+          <div class="relative flex-1 max-w-md">
+            <input 
+              type="text" 
+              id="input-search-courses" 
+              placeholder="Cari mata kuliah (contoh: SQA, Struktur Data, Basis Data)..." 
+              class="w-full px-3.5 py-2 text-xs border border-slate-300 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white transition"
+            >
+          </div>
+
+          <div class="text-[11px] font-mono text-blue-700 font-semibold flex items-center gap-2">
+            <span class="w-1.5 h-1.5 bg-blue-600"></span>
+            <span>BEBAS BIAYA • TANPA LOGIN</span>
+          </div>
+        </div>
+
+        <!-- Active Semester Header & Courses Grid -->
+        <div class="space-y-4">
+          <div class="border-b border-blue-100 pb-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <h2 id="current-semester-title" class="text-xl font-extrabold text-blue-950 uppercase tracking-tight">
+                Semester 1
+              </h2>
+              <span id="current-semester-count" class="text-xs font-mono px-2.5 py-0.5 bg-blue-600 text-white font-bold">
+                2 Mata Kuliah Tersedia
+              </span>
+            </div>
+            <span class="text-xs text-blue-600 font-bold hidden sm:inline font-mono">
+              Informatika Question Bank
+            </span>
+          </div>
+
+          <!-- Course Cards Grid -->
+          <div id="course-cards-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <!-- Dynamically populated course cards with exam category options -->
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+
+
+  </div>
+
+  <!-- ==========================================================================
+       VIEW 2: EXAM ROOM (Ruang Belajar & Ujian CAT)
+       ========================================================================== -->
+  <div id="view-exam" class="h-screen flex flex-col overflow-hidden hidden">
+    
+    <!-- Top Header (Clean Integrated Blue Header) -->
+    <header class="bg-blue-600 text-white h-16 border-b border-blue-700/80 px-6 flex items-center justify-between shrink-0">
+      
+      <!-- Left: Back Button & Exam Title Info -->
+      <div class="flex items-center gap-4">
+        <button id="btn-back-home" class="inline-flex items-center gap-2 h-9 px-3.5 text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Kembali</span>
+        </button>
+
+        <div class="h-6 w-px bg-white/20"></div>
+
+        <div class="flex items-center gap-3">
+          <div class="flex flex-col justify-center">
+            <h1 id="exam-subject-title" class="text-sm font-bold text-white tracking-wide truncate max-w-sm md:max-w-md">
+              Software Quality Assurance (SQA) — UTS
+            </h1>
+            <span class="text-[11px] text-blue-100 font-mono">Simulasi Computer Assisted Test (CAT) Mandiri</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Controls & Mode Switcher -->
+      <div class="flex items-center gap-2.5">
+        <!-- Reset Answers Button -->
+        <button id="btn-reset-exam" class="h-9 px-3 text-xs font-semibold bg-rose-600/90 hover:bg-rose-700 text-white border border-rose-500 transition cursor-pointer flex items-center gap-1.5" title="Reset Semua Jawaban Pada Paket Ini">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span class="hidden sm:inline">Reset Jawaban</span>
+        </button>
+
+        <!-- Fullscreen Toggle Button -->
+        <button id="btn-toggle-fullscreen" class="h-9 px-3 text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition cursor-pointer flex items-center gap-1.5" title="Mode Layar Penuh">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+          </svg>
+          <span class="hidden sm:inline">Layar Penuh</span>
+        </button>
+
+        <!-- Mode Switcher Button -->
+        <button id="btn-toggle-mode" class="h-9 px-3.5 text-xs font-bold bg-white text-blue-700 border border-white transition cursor-pointer flex items-center gap-2">
+          <span class="w-2 h-2 bg-blue-600"></span> Mode Belajar
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Exam Workspace -->
+    <main class="flex-1 p-5 grid grid-cols-12 gap-5 overflow-hidden">
+      
+      <!-- LEFT: QUESTION & ANSWER WORKSPACE (col-span-12 lg:col-span-9) -->
+      <section class="col-span-12 lg:col-span-9 bg-white border border-slate-200 flex flex-col justify-between overflow-hidden">
+        
+        <!-- Question Content Area -->
+        <div class="p-6 md:p-10 overflow-y-auto space-y-6 flex-1">
+          
+          <!-- Question Header, Counter & Bookmark -->
+          <div class="border-b border-blue-100 pb-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <h2 class="text-sm font-bold uppercase tracking-wider text-blue-950" id="q-title">
+                Question 1
+              </h2>
+              <span class="text-xs font-mono text-slate-500">
+                Soal <span id="q-current-num" class="font-bold text-blue-700">1</span> dari <span id="q-total-num">40</span>
+              </span>
+            </div>
+
+            <!-- Bookmark Button -->
+            <button id="btn-bookmark" class="px-2.5 py-1 text-xs font-semibold border border-slate-300 bg-white text-slate-600 hover:border-blue-600 hover:text-blue-600 transition cursor-pointer flex items-center gap-1.5">
+              ☆ <span class="hidden sm:inline">Simpan Soal</span>
+            </button>
+          </div>
+
+          <!-- Question Body Text -->
+          <div class="space-y-4">
+            <p class="text-slate-900 text-base md:text-lg leading-relaxed font-normal" id="q-body">
+              <!-- Rendered by Presenter -->
+            </p>
+
+            <!-- Code Snippet Container (for Informatics Code Blocks) -->
+            <div id="q-code-snippet" class="hidden">
+              <pre class="bg-slate-950 text-cyan-300 p-4 font-mono text-xs border border-blue-900/50 overflow-x-auto selection:bg-blue-600 selection:text-white"><code></code></pre>
+            </div>
+          </div>
+
+          <!-- Clean Options List -->
+          <div class="space-y-2.5 max-w-3xl pt-2" id="options-list">
+            <!-- Rendered dynamically by Presenter -->
+          </div>
+
+          <!-- Explanation Container (Study Mode Instant Feedback) -->
+          <div id="explanation-container" class="hidden p-4 bg-emerald-50/50 border-l-4 border-emerald-600 border border-emerald-200 space-y-1.5">
+            <div id="explanation-header" class="text-xs font-bold font-mono text-emerald-800 uppercase flex items-center gap-1.5">
+              ✓ Pembahasan Konsep:
+            </div>
+            <div id="explanation-text" class="text-xs text-slate-700 leading-relaxed">
+              <!-- Rendered by Presenter -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Action Footer Bar -->
+        <footer class="px-6 py-4 border-t border-slate-200 bg-slate-50/70 flex items-center justify-between gap-4 shrink-0">
+          
+          <!-- Left: Secondary Actions -->
+          <div class="flex items-center gap-2">
+            <button id="btn-review" class="px-3.5 py-2 text-xs font-semibold border border-slate-300 bg-white text-slate-700 hover:border-blue-600 hover:text-blue-700 transition cursor-pointer flex items-center gap-1.5">
+              <span id="review-dot" class="w-1.5 h-1.5 bg-slate-400"></span>
+              <span id="review-label">Mark for review</span>
+            </button>
+
+            <button id="btn-clear" class="px-3 py-2 text-xs font-medium text-slate-500 hover:text-rose-600 transition cursor-pointer">
+              Clear choice
+            </button>
+          </div>
+
+          <!-- Right: Steppers & Submit -->
+          <div class="flex items-center gap-2">
+            <button id="btn-prev" class="px-4 py-2 text-xs font-semibold border border-slate-300 bg-white text-slate-700 hover:border-blue-600 hover:text-blue-600 transition cursor-pointer">
+              Previous
+            </button>
+
+            <button id="btn-next" class="px-5 py-2 text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white border border-blue-600 transition cursor-pointer">
+              Next
+            </button>
+
+            <button id="btn-submit" class="hidden px-5 py-2 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-600 transition cursor-pointer">
+              Selesai & Evaluasi
+            </button>
+          </div>
+
+        </footer>
+
+      </section>
+
+      <!-- RIGHT: NAVIGATION PALETTE (col-span-12 lg:col-span-3) -->
+      <aside class="col-span-12 lg:col-span-3 bg-white border border-slate-200 flex flex-col justify-between overflow-hidden">
+        
+        <!-- Sidebar Header -->
+        <div class="px-4 py-3 border-b border-blue-100 bg-blue-50/40 flex items-center justify-between shrink-0">
+          <span class="text-xs font-bold uppercase tracking-wider text-blue-900">
+            Daftar Soal
+          </span>
+          <span class="text-xs font-mono text-blue-600 font-bold">
+            Total <span id="exam-total-questions-header">40</span>
+          </span>
+        </div>
+
+        <!-- Question Number Grid -->
+        <div class="p-4 flex-1 overflow-y-auto">
+          <div class="grid grid-cols-5 gap-1.5" id="matrix-grid">
+            <!-- Rendered dynamically by Presenter -->
+          </div>
+        </div>
+
+        <!-- Minimalist Legend Guide -->
+        <div class="p-4 border-t border-slate-200 bg-slate-50 space-y-2 text-xs shrink-0">
+          <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Status</div>
+          
+          <div class="grid grid-cols-2 gap-y-1.5 gap-x-2 text-[11px] text-slate-600">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 bg-blue-600"></span>
+              <span>Aktif</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 bg-blue-800"></span>
+              <span>Dijawab</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 bg-amber-500"></span>
+              <span>Ragu-ragu</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 bg-rose-600"></span>
+              <span>Belum</span>
+            </div>
+            <div class="flex items-center gap-2 col-span-2">
+              <span class="w-2.5 h-2.5 border border-slate-300 bg-white"></span>
+              <span>Belum Dibuka</span>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+    </main>
+
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: CONFIRMATION / HASIL EVALUASI (Latih Ulang Soal Salah)
+       ========================================================================== -->
+  <div id="confirm-modal" class="fixed inset-0 bg-blue-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white border border-blue-900 w-full max-w-md p-6 space-y-5">
+      
+      <div class="space-y-1 border-b border-blue-100 pb-3">
+        <h3 class="text-base font-bold text-blue-950 uppercase tracking-wider">Hasil Rekapitulasi Sesi</h3>
+        <p class="text-xs text-slate-500">Ringkasan pengerjaan soal dan evaluasi skor Anda.</p>
+      </div>
+
+      <!-- Score Highlight Card (Solid Blue Card) -->
+      <div class="bg-blue-600 text-white p-4 flex items-center justify-between border border-blue-700">
+        <div>
+          <div class="text-[10px] uppercase font-mono tracking-wider text-blue-100">Skor Pemahaman</div>
+          <div class="text-3xl font-mono font-bold text-white">
+            <span id="modal-score-val">0</span> <span class="text-sm text-blue-100 font-normal">/ 100</span>
+          </div>
+        </div>
+        <div class="text-right font-mono text-xs space-y-1">
+          <div class="text-emerald-200">Benar: <span class="font-bold text-white" id="modal-correct-count">0</span></div>
+          <div class="text-rose-200">Salah: <span class="font-bold text-white" id="modal-wrong-count">0</span></div>
+        </div>
+      </div>
+
+      <!-- Breakdown Counts -->
+      <div class="bg-blue-50/50 border border-blue-100 p-3 space-y-1.5 font-mono text-xs">
+        <div class="flex justify-between text-slate-700">
+          <span>Total Terjawab:</span>
+          <span class="font-bold text-blue-700" id="modal-answered-count">0</span>
+        </div>
+        <div class="flex justify-between text-slate-700">
+          <span>Ditandai Ragu:</span>
+          <span class="font-bold text-amber-600" id="modal-flagged-count">0</span>
+        </div>
+        <div class="flex justify-between text-slate-700">
+          <span>Belum Dijawab:</span>
+          <span class="font-bold text-rose-600" id="modal-unanswered-count">0</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-2 pt-2 border-t border-slate-200">
+        
+        <!-- Button: Retry Wrong Questions -->
+        <button id="btn-retry-wrong" class="w-full hidden py-2.5 text-xs font-bold uppercase tracking-wider bg-blue-600 hover:bg-blue-700 text-white border border-blue-600 transition cursor-pointer flex items-center justify-center gap-2">
+          <span>🔄 Latih Ulang <span id="btn-retry-wrong-count">0</span> Soal yang Salah</span>
+        </button>
+
+        <div class="flex justify-end gap-2 pt-1">
+          <button id="modal-btn-cancel" class="px-3.5 py-1.5 text-xs font-semibold border border-slate-300 text-slate-700 hover:border-blue-600 hover:text-blue-600 cursor-pointer">
+            Lanjut Memeriksa
+          </button>
+          <button id="modal-btn-confirm" class="px-4 py-1.5 text-xs font-semibold bg-blue-600 text-white border border-blue-600 hover:bg-blue-700 cursor-pointer">
+            Simpan & Selesai
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: RIWAYAT NILAI & LATIHAN (Tersimpan Lokal Tanpa Login)
+       ========================================================================== -->
+  <div id="history-modal" class="fixed inset-0 bg-blue-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white border border-blue-900 w-full max-w-lg p-6 space-y-4 max-h-[85vh] flex flex-col justify-between">
+      
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-blue-100 pb-3 shrink-0">
+        <div>
+          <h3 class="text-base font-bold text-blue-950 uppercase tracking-wider">Riwayat Belajar & Nilai</h3>
+          <p class="text-xs text-slate-500">Catatan evaluasi mandiri tersimpan secara otomatis di browser Anda.</p>
+        </div>
+        <button id="btn-close-history" class="text-slate-400 hover:text-blue-600 font-mono text-lg font-bold">✕</button>
+      </div>
+
+      <!-- Summary Stats Banner (Solid Blue Cards) -->
+      <div class="grid grid-cols-3 gap-2 shrink-0 text-center font-mono">
+        <div class="p-2.5 bg-blue-600 text-white border border-blue-700">
+          <div class="text-[10px] uppercase text-blue-100">Total Tes</div>
+          <div id="history-total-tests" class="text-lg font-bold text-white">0</div>
+        </div>
+        <div class="p-2.5 bg-blue-600 text-white border border-blue-700">
+          <div class="text-[10px] uppercase text-blue-100">Rata-Rata</div>
+          <div id="history-avg-score" class="text-lg font-bold text-white">0</div>
+        </div>
+        <div class="p-2.5 bg-blue-600 text-white border border-blue-700">
+          <div class="text-[10px] uppercase text-blue-100">Skor Terbaik</div>
+          <div id="history-best-score" class="text-lg font-bold text-white">0</div>
+        </div>
+      </div>
+
+      <!-- History List -->
+      <div id="history-list-container" class="space-y-2 overflow-y-auto flex-1 pr-1">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="flex items-center justify-between pt-3 border-t border-neutral-200 shrink-0">
+        <button id="btn-clear-history" class="text-xs text-rose-600 hover:underline font-medium cursor-pointer">
+          Hapus Semua Riwayat
+        </button>
+        <button onclick="document.getElementById('history-modal').classList.add('hidden')" class="px-4 py-1.5 text-xs font-semibold bg-neutral-950 text-white border border-neutral-950 hover:bg-neutral-800 cursor-pointer">
+          Tutup
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= DATA LAYER (Bank Soal & Kurikulum Terpisah) ================= -->
+  <script src="data/courses.js"></script>
+  <script src="data/questions/sem5-sqa-uts.js"></script>
+  <script src="data/questions/sem1-alin-uts.js"></script>
+  <script src="data/questions/sem1-alin-uts-a.js"></script>
+  <script src="data/questions/sem1-alin-uts-b.js"></script>
+  <script src="data/questions/sem1-matdas-quiz-1.js"></script>
+  <script src="data/questions/sem2-adsi-quiz-1.js"></script>
+  <script src="data/questions/sem2-adsi-quiz-2.js"></script>
+
+  <!-- ================= CLEAN ARCHITECTURE SCRIPTS (Ordered by Dependency Rule) ================= -->
+  <!-- 1. Domain Layer (Pure Entities & Business Rules) -->
+  <script src="js/domain/ExamEntity.js"></script>
+
+  <!-- 2. Infrastructure Layer (Repositories & Data Access) -->
+  <script src="js/infrastructure/LocalStorageService.js"></script>
+  <script src="js/infrastructure/QuestionRepository.js"></script>
+
+  <!-- 3. Use Cases Layer (Application Business Rules) -->
+  <script src="js/usecases/ExamUseCases.js"></script>
+
+  <!-- 4. Presentation Layer (Presenter & Controller) -->
+  <script src="js/presentation/ExamPresenter.js"></script>
+  <script src="js/presentation/ExamController.js"></script>
+
+  <!-- 5. Composition Root (Bootstrap & Dependency Injection) -->
+  <script src="js/app.js"></script>
+</body>
+</html>
